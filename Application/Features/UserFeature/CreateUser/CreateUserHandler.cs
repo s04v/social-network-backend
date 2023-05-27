@@ -41,28 +41,5 @@ namespace Application.Features.UserFeature.CreateUser
 
             return Unit.Value;
         }
-
-        public string GenerateJWT(User user)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim("id", user.Id.ToString()),
-                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
-            };
-
-            const string KEY = "vbXSZTqV2+K1vckHeVmm/W8n8W4GzTwr6nQHWKhtROCwBLkwxd3Rpig0o8i3Pyr0";
-
-            ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "Token");
-
-            var jwt = new JwtSecurityToken(
-                notBefore: DateTime.UtcNow,
-                claims: claimsIdentity.Claims,
-                expires: DateTime.UtcNow.AddHours(10),
-                signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(KEY)), SecurityAlgorithms.HmacSha256));
-            
-            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
-
-            return encodedJwt;
-        }
     }
 }

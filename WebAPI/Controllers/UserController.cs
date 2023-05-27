@@ -1,6 +1,8 @@
 ﻿using Application.Features.UserFeature.CreateUser;
+using Application.Features.UserFeature.LoginUser;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.IIS;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -29,8 +31,15 @@ namespace WebAPI.Controllers
             return "value";
         }
 
-        [HttpPost]
-        public async Task<ActionResult> Post(CreateUserRequest request, CancellationToken token)
+        [HttpPost("register")]
+        public async Task<ActionResult> Register(CreateUserRequest request, CancellationToken token)
+        {
+            var response = await _mediator.Send(request, token);
+            return Ok(response);
+        }
+
+        [HttpPost("login")]
+        public async Task<ActionResult> Login(LoginUserRequest request, CancellationToken token)
         {
             var response = await _mediator.Send(request, token);
             return Ok(response);

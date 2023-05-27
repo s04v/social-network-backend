@@ -53,5 +53,9 @@ namespace Infrastructure.Repositories
         {
             return _context.Users.FirstOrDefault(u => u.Email == email) != null ? true : false;
         }
+        public User? GetUserByEmail(string email)
+        {
+            return _context.Users.FirstOrDefault(u => u.Email == email);
+        }
     }
 }

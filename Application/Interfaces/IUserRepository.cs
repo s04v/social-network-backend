@@ -15,5 +15,6 @@ namespace Application.Interfaces
         void Update(User user, CancellationToken cancellationToken);
         bool CheckIfUserExists(string email);
         User GetUserById(int id);
+        User GetUserByEmail(string email);
     }
 }
