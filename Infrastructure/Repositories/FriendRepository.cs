@@ -17,29 +17,32 @@ namespace Infrastructure.Repositories
             _context = context;
         }
 
-        public void ChangeStatus(bool isAccepted)
+        public Friend? GetById(int id)
         {
-            throw new NotImplementedException();
+            return _context.Friends.FirstOrDefault(x => x.Id == id);
         }
 
-        public void Delete(int id)
+        public IEnumerable<Friend>? GetInitiationListForUser(int id)
         {
-            throw new NotImplementedException();
+            return _context.Friends.Where(x => x.Receiver.Id == id && x.IsAccepted == false).ToList();
         }
 
-        public IEnumerable<Friend>? GetInitiationList()
+        public IEnumerable<User>? GetFriendListForUser(int id)
         {
-            throw new NotImplementedException();
-        }
+            var friends = _context.Friends.Where(x => x.IsAccepted == true && (x.Requester.Id == id || x.Receiver.Id == id)).ToList();
+            var friendList = new List<User>();
+            foreach (var friend in friends)
+            {
+                if(friend.Requester.Id == id)
+                {
+                    friendList.Add(friend.Requester);
+                } else
+                {
+                    friendList.Add(friend.Receiver);
+                }
+            }
 
-        public IEnumerable<User>? GetList()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<User>? GetListById(int id)
-        {
-            throw new NotImplementedException();
+            return friendList;
         }
 
         public void Initiate(User requester, User receiver, CancellationToken cancellationToken)
@@ -52,6 +55,23 @@ namespace Infrastructure.Repositories
             };
 
             _context.Add(friend);
+            _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public void Accept(int id, CancellationToken cancellationToken)
+        {
+            var initiation = _context.Friends.FirstOrDefault(x => x.Id == id);
+            if(initiation != null)
+            {
+                initiation.IsAccepted = true;
+            }
+            _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public void Delete(int id, CancellationToken cancellationToken)
+        {
+            var friend = new Friend { Id = id };
+            _context.Friends.Remove(friend);
             _context.SaveChangesAsync(cancellationToken);
         }
         
@@ -69,6 +89,5 @@ namespace Infrastructure.Repositories
 
             return true;
         }
-
     }
 }

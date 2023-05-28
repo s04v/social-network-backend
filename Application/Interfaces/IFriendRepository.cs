@@ -9,12 +9,12 @@ namespace Application.Interfaces
 {
     public interface IFriendRepository
     {
-        IEnumerable<User>? GetList();
-        IEnumerable<Friend>? GetInitiationList(); 
-        IEnumerable<User>? GetListById(int id);
+        Friend? GetById(int id);
+        IEnumerable<Friend>? GetInitiationListForUser(int id); 
+        IEnumerable<User>? GetFriendListForUser(int id);
         void Initiate(User requester, User receiver, CancellationToken cancellationToken);
-        void ChangeStatus(bool isAccepted);
-        void Delete(int id);
+        void Accept(int id, CancellationToken cancellationToken);
+        void Delete(int id, CancellationToken cancellationToken);
         bool CheckIfRelationExists(User userA, User userB);
     }
 }

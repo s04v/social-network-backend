@@ -9,7 +9,6 @@ namespace Application.Interfaces
 {
     public interface IUserRepository
     {
-        User Get(int id);
         IEnumerable<User> GetAll();
         void Create(User user, CancellationToken cancellationToken);
         void Update(User user, CancellationToken cancellationToken);

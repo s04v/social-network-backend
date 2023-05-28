@@ -39,14 +39,9 @@ namespace Infrastructure.Repositories
             return _context.Users.FirstOrDefault(u => u.Id == id);
         }
 
-        public User? Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<User> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.Users.ToList();
         }
 
         public bool CheckIfUserExists(string email)
