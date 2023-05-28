@@ -34,12 +34,12 @@ namespace Infrastructure.Repositories
             return _context.Users.FirstOrDefault(u => u.Email == user.Email) != null ? true : false;
         }
 
-        public User? GetUserById(int id)
+        public User? GetById(int id)
         {
             return _context.Users.FirstOrDefault(u => u.Id == id);
         }
 
-        public User Get(int id)
+        public User? Get(int id)
         {
             throw new NotImplementedException();
         }
